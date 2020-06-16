@@ -9,21 +9,14 @@ angular.module('NarrowItDownApp', [])
 
 function FoundItemsDirective() {
   var ddo = {
+    templateUrl: 'foundItems.html',
     scope: {
-      found: '<',
+      list: '<found',
       onRemove: '&'
-    },
-    templateUrl: "foundItems.html",
-    controller: FoundItemsDirectiveController,
-    controllerAs: 'nidCtrl',
-    bindToController: true
+    }
   }
 
   return ddo;
-}
-
-function FoundItemsDirectiveController() {
-  var items = this;
 }
 
 NarrowItDownController.$inject = ['MenuSearchFactory'];
@@ -36,20 +29,14 @@ function NarrowItDownController(MenuSearchFactory) {
   narrowItDownList.term = "";
 
   narrowItDownList.getMatchedItems = function () {
+    var promise = menuSearchList.getMatchedMenuItems(narrowItDownList.term);
 
-  // narrowItDownList.found = menuSearchList.getMatchedMenuItems(narrowItDownList.term);
-
-  // console.log(narrowItDownList.found);
-
-
-      var promise = menuSearchList.getMatchedMenuItems(narrowItDownList.term);
-
-      promise.then(function (response) {
-        narrowItDownList.found = response;
-      })
-      .catch(function (){
-        console.log('Not working');
-      });
+    promise.then(function (response) {
+      narrowItDownList.found = response;
+    })
+    .catch(function (){
+      console.log('Not working');
+    });
   };
 
   narrowItDownList.removeItem = function (itemIndex) {

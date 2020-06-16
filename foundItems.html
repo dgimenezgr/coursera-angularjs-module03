@@ -1,3 +1,7 @@
+<h3>LISTA</h3>
 <ol>
-    <li ng-repeat="item in found">{{ item.name }} <button ng-click="found.onRemove({index: $index});">Remove Item</button></li>
+    <li ng-repeat="item in list.found">
+        {{ item.name }}
+        <button ng-click="list.onRemove({index: $index});">Remove Item</button>
+    </li>
 </ol>

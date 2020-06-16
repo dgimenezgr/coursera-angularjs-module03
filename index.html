@@ -9,20 +9,18 @@
     <link rel="stylesheet" href="styles/styles.css">
   </head>
 <body>
-   <div class="container" ng-controller="NarrowItDownController as nidCtrl">
+   <div class="container" ng-controller="NarrowItDownController as list">
     <h1>Narrow Down Your Chinese Menu Choice</h1>
     <div class="form-group">
-      <input type="text" placeholder="Search term" class="form-control" ng-model="nidCtrl.term">
+      <input type="text" placeholder="Search term" class="form-control" ng-model="list.term">
     </div>
     <div class="form-group narrow-button">
-      <button class="btn btn-primary" ng-click="nidCtrl.getMatchedItems();">Narrow It Down For Me!</button>
-    </div>
-    <div>
-      {{ nidCtrl.found }}
+      <button class="btn btn-primary" ng-click="list.getMatchedItems();">Narrow It Down For Me!</button>
     </div>
     <!-- found-items should be implemented as a component -->
-    <!-- <found-items found-items="...." on-remove="...."></found-items> -->
-    <found-items items="nidCtrl.found" on-remove="nidCtrl.removeItem(index)"></found-items>
+    <found-items 
+      found="list" 
+      on-remove="list.removeItem(index)"></found-items>
   </div>
 
 </body>
