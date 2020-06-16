@@ -40,7 +40,7 @@ function NarrowItDownController(MenuSearchFactory) {
   };
 
   narrowItDownList.removeItem = function (itemIndex) {
-    menuSearchList.removeItem(itemIndex);
+    menuSearchList.removeItem(narrowItDownList.found, itemIndex);
   };
 
 }
@@ -70,8 +70,8 @@ function MenuSearchService($http,ApiEndpoint) {
     return found;
   };
 
-  service.removeItem = function (itemIndex) {
-    found.splice(itemIndex, 1);
+  service.removeItem = function (items, itemIndex) {
+    items.splice(itemIndex, 1);
   };
 }
 

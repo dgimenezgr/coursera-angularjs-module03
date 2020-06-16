@@ -1,7 +1,7 @@
 <h3>LISTA</h3>
 <ol>
     <li ng-repeat="item in list.found">
-        {{ item.name }}
-        <button ng-click="list.onRemove({index: $index});">Remove Item</button>
+        {{ item.name }} - index {{ $index }}
+        <button ng-click="list.onRemove({index: $index});">Don't want this one!</button>
     </li>
 </ol>
