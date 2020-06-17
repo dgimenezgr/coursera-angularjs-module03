@@ -17,20 +17,46 @@ function FoundItemsDirective() {
     },
     controller: FoundItemsDirectiveController,
     controllerAs: 'narrowItDownList',
-    bindToController: true
+    bindToController: true,
+    link: FoundItemsDirectiveLink
   }
 
   return ddo;
+}
+
+function FoundItemsDirectiveLink(scope, element, attrs, controller) {
+  scope.$watch('narrowItDownList.isFoundEmpty()', function (newValue, oldValue) {
+    if (newValue === true) {
+      displayEmptyWarning();
+    }
+    else {
+      removeEmptyWarning();
+    }
+  });
+
+  function displayEmptyWarning() {
+    var warningElem = element.find("div.empty-warning");
+    warningElem.fadeIn();
+  }
+
+
+  function removeEmptyWarning() {
+    var warningElem = element.find("div.empty-warning");
+    warningElem.fadeOut();
+  }
+
 }
 
 function FoundItemsDirectiveController() {
   var narrowItDownList = this;
 
   narrowItDownList.isFoundEmpty = function() {
-      if (narrowItDownList.found.length === 0 && narrowItDownList.found !== undefined) {
-          return true;
-      }
-      return false;
+    if (narrowItDownList.found !== undefined) {
+        if (narrowItDownList.found.length === 0) {
+            return true;
+        }
+        return false;
+    }
   };
 }
 
@@ -39,16 +65,20 @@ function NarrowItDownController(MenuSearchService) {
   var narrowItDownList = this;
 
   narrowItDownList.getMatchedItems = function () {
-    // Call getMatchedMenuItems on Service as promise
-    var promise = MenuSearchService.getMatchedMenuItems(narrowItDownList.term);
+    if (narrowItDownList.term === undefined || narrowItDownList.term === "") {
+      narrowItDownList.found = [];
+    } else {
+      // Call getMatchedMenuItems on Service as promise
+      var promise = MenuSearchService.getMatchedMenuItems(narrowItDownList.term);
 
-    // Concatenate success and catch error
-    promise.then(function (result) {
-      narrowItDownList.found = result;
-    })
-    .catch(function (error){
-      console.log(error.message);
-    });
+      // Concatenate success and catch error
+      promise.then(function (result) {
+        narrowItDownList.found = result;
+      })
+      .catch(function (error){
+        console.log(error.message);
+      });
+    }
   };
 
   /**
