@@ -38,7 +38,49 @@ input[type="text"] {
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  margin-bottom: 48px;
 }
+
+.founditem__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 32px;
+}
+
+.button--remove {
+  font-size: 12px;
+  margin-left: 32px;
+  background-color: red;
+  color: white;
+  transition: all 0.3s;
+}
+
+.button--remove:hover {
+  background-color: chocolate;
+  color: white;
+}
+
+.button--remove .glyphicon-remove {
+  color: white;
+}
+
+.empty-warning {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #2e6da4;
+  border-radius: 4px;
+  text-align: center;
+  width: max-content;
+  padding: 16px 32px;
+}
+
+.empty-warning .empty-warning__text {
+  font-size: 18px;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
 @-webkit-keyframes load8 {
   0% {
     -webkit-transform: rotate(0deg);

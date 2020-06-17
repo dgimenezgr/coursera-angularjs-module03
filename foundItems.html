@@ -1,7 +1,7 @@
-<ol id='foundItemList'>
-    <li ng-repeat="foundItem in narrowItDownList.found">
-        {{foundItem.name}}, {{foundItem.short_name}}, {{foundItem.description}}
-        <button class="btn btn-default" ng-click="narrowItDownList.onRemove({index: $index});"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Don't want this one!</button>
+<ul>
+    <li class="founditem__item" ng-repeat="foundItem in narrowItDownList.found">
+        <p>{{foundItem.name}} - {{foundItem.description}}</p>
+        <button class="btn btn-default button--remove" ng-click="narrowItDownList.onRemove({index: $index});"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Don't want this one!</button>
     </li>
-</ol>
-<div class="empty-warning">Nothing found</div>
+</ul>
+<div class="empty-warning"><h3 class="empty-warning__text">Nothing found! Please, enter a valid search term</h3></div>
