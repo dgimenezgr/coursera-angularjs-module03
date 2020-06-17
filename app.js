@@ -3,44 +3,60 @@
 
 angular.module('NarrowItDownApp', [])
 .controller('NarrowItDownController', NarrowItDownController)
-.factory('MenuSearchFactory', MenuSearchFactory)
+.service('MenuSearchService', MenuSearchService)
 .directive('foundItems', FoundItemsDirective)
 .constant('ApiEndpoint', 'https://davids-restaurant.herokuapp.com');
 
 function FoundItemsDirective() {
   var ddo = {
     templateUrl: 'foundItems.html',
+    restrict: 'E',
     scope: {
-      list: '<found',
+      found: '<',
       onRemove: '&'
-    }
+    },
+    controller: FoundItemsDirectiveController,
+    controllerAs: 'narrowItDownList',
+    bindToController: true
   }
 
   return ddo;
 }
 
-NarrowItDownController.$inject = ['MenuSearchFactory'];
-function NarrowItDownController(MenuSearchFactory) {
+function FoundItemsDirectiveController() {
   var narrowItDownList = this;
 
-  var menuSearchList = MenuSearchFactory();
-  
-  /** Variable declaration **/
-  narrowItDownList.term = "";
+  narrowItDownList.isFoundEmpty = function() {
+      if (narrowItDownList.found.length === 0 && narrowItDownList.found !== undefined) {
+          return true;
+      }
+      return false;
+  };
+}
+
+NarrowItDownController.$inject = ['MenuSearchService'];
+function NarrowItDownController(MenuSearchService) {
+  var narrowItDownList = this;
 
   narrowItDownList.getMatchedItems = function () {
-    var promise = menuSearchList.getMatchedMenuItems(narrowItDownList.term);
+    // Call getMatchedMenuItems on Service as promise
+    var promise = MenuSearchService.getMatchedMenuItems(narrowItDownList.term);
 
-    promise.then(function (response) {
-      narrowItDownList.found = response;
+    // Concatenate success and catch error
+    promise.then(function (result) {
+      narrowItDownList.found = result;
     })
-    .catch(function (){
-      console.log('Not working');
+    .catch(function (error){
+      console.log(error.message);
     });
   };
 
+  /**
+   * @method removeItem
+   * @param Number itemIndex Index of Item to remove
+   */
   narrowItDownList.removeItem = function (itemIndex) {
-    menuSearchList.removeItem(narrowItDownList.found, itemIndex);
+    narrowItDownList.found = MenuSearchService.removeItem(narrowItDownList.found, itemIndex);
   };
 
 }
@@ -62,26 +78,11 @@ function MenuSearchService($http,ApiEndpoint) {
     });
   }    
 
-  service.filterMenuItems = function (response, term) {
-    var found = response.menu_items.filter( function(e) {
-      return e.description.toLowerCase().includes(term.toLowerCase());
-    });
-
-    return found;
-  };
-
   service.removeItem = function (items, itemIndex) {
     items.splice(itemIndex, 1);
-  };
-}
 
-MenuSearchFactory.$inject = ['$http','ApiEndpoint'];
-function MenuSearchFactory($http,ApiEndpoint) {
-  var factory = function () {
-    return new MenuSearchService($http,ApiEndpoint);
+    return items;
   };
-
-  return factory;
 }
 
 })();

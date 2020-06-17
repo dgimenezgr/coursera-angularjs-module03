@@ -1,7 +1,7 @@
-<h3>LISTA</h3>
-<ol>
-    <li ng-repeat="item in list.found">
-        {{ item.name }} - index {{ $index }}
-        <button ng-click="list.onRemove({index: $index});">Don't want this one!</button>
+<ol id='foundItemList'>
+    <li ng-repeat="foundItem in narrowItDownList.found">
+        {{foundItem.name}}, {{foundItem.short_name}}, {{foundItem.description}}
+        <button class="btn btn-default" ng-click="narrowItDownList.onRemove({index: $index});"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Don't want this one!</button>
     </li>
 </ol>
+<div ng-if="narrowItDownList.isEmptyItems()" class="alert alert-info">Nothing found</div>
