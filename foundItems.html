@@ -1,6 +1,6 @@
 <ul>
     <li class="founditem__item" ng-repeat="foundItem in narrowItDownList.found">
-        <p>{{foundItem.name}} - {{foundItem.description}}</p>
+        <p>{{foundItem.name}} - {{foundItem.short_name}} - {{foundItem.description}}</p>
         <button class="btn btn-default button--remove" ng-click="narrowItDownList.onRemove({index: $index});"><span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Don't want this one!</button>
     </li>
 </ul>
